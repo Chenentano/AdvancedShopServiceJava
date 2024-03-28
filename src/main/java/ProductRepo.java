@@ -1,9 +1,7 @@
 package main.java;
-
-import main.java.Product;
-
 import java.util.ArrayList;
 import java.util.List;
+
 import java.util.Optional;
 
 public class ProductRepo {

@@ -1,6 +1,7 @@
 package main.java;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -9,20 +10,21 @@ public class ShopService {
     private OrderRepo orderRepo = new OrderMapRepo();
 
     public Order addOrder(List<String> productIds) {
-        List<Product> products = new ArrayList<>();
+        List<Optional<Product>> products = new ArrayList<>();
         for (String productId : productIds) {
-            Product productToOrder = productRepo.getProductById(productId);
-            if (productToOrder == null) {
-                System.out.println("Product mit der Id: " + productId + " konnte nicht bestellt werden!");
-                return null;
+            Optional<Product> productToOrder = productRepo.getProductById(productId);
+            if (productToOrder.isEmpty()) {
+                throw new IllegalArgumentException("Product with ID " + productId + " does not exist.");
             }
             products.add(productToOrder);
         }
 
-        Order newOrder = new Order(UUID.randomUUID().toString(), products,OrderStatus.PROCESSING);
+        List<Product> validProducts = products.stream()
+                .map(Optional::get)
+                .toList();
 
+        Order newOrder = new Order(UUID.randomUUID().toString(), validProducts, OrderStatus.PROCESSING);
         return orderRepo.addOrder(newOrder);
-
     }
 
     public List<Order> getOrdersByStatus(OrderStatus status) {
