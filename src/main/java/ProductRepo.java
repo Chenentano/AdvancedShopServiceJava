@@ -1,28 +1,17 @@
 package main.java;
+
 import java.util.ArrayList;
 import java.util.List;
-
 import java.util.Optional;
 
 public class ProductRepo {
     private List<Product> products;
 
     public ProductRepo() {
-        products = new ArrayList<>();
+        this.products = new ArrayList<>();
+        // Add some initial products for testing
         products.add(new Product("1", "Apfel"));
-    }
-
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public Optional<Product> getProductById(String id) {
-        for (Product product : products) {
-            if (product.id().equals(id)) {
-                return Optional.of(product);
-            }
-        }
-        return Optional.empty();
+        products.add(new Product("2", "Banane"));
     }
 
     public Product addProduct(Product newProduct) {
@@ -30,12 +19,13 @@ public class ProductRepo {
         return newProduct;
     }
 
+    public Optional<Product> getProductById(String id) {
+        return products.stream()
+                .filter(product -> product.id().equals(id))
+                .findFirst();
+    }
+
     public void removeProduct(String id) {
-        for (Product product : products) {
-            if (product.id().equals(id)) {
-                products.remove(product);
-                return;
-            }
-        }
+        products.removeIf(product -> product.id().equals(id));
     }
 }

@@ -10,23 +10,25 @@ public class ShopService {
     private OrderRepo orderRepo = new OrderMapRepo();
 
     public Order addOrder(List<String> productIds) {
-        List<Optional<Product>> products = new ArrayList<>();
+        List<Product> validProducts = new ArrayList<>();
+
         for (String productId : productIds) {
             Optional<Product> productToOrder = productRepo.getProductById(productId);
+
             if (productToOrder.isEmpty()) {
                 throw new IllegalArgumentException("Product with ID " + productId + " does not exist.");
             }
-            products.add(productToOrder);
+
+            validProducts.add(productToOrder.get());
         }
 
-        List<Product> validProducts = products.stream()
-                .map(Optional::get)
-                .toList();
+        if (validProducts.isEmpty()) {
+            return null;
+        }
 
         Order newOrder = new Order(UUID.randomUUID().toString(), validProducts, OrderStatus.PROCESSING);
         return orderRepo.addOrder(newOrder);
     }
-
     public List<Order> getOrdersByStatus(OrderStatus status) {
         return orderRepo.getAllOrders().stream()
                 .filter(order -> order.status() == status)
