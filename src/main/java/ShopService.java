@@ -33,4 +33,14 @@ public class ShopService {
                 .collect(Collectors.toList());
     }
 
+    public Order updateOrder(String orderId, OrderStatus newStatus) {
+        Optional<Order> optionalOrder = Optional.ofNullable(orderRepo.getOrderById(orderId));
+        if (optionalOrder.isPresent()) {
+            Order existingOrder = optionalOrder.get();
+            Order updatedOrder = new Order(existingOrder.id(), existingOrder.products(), newStatus);
+            return orderRepo.updateOrder(updatedOrder);
+        } else {
+            throw new IllegalArgumentException("Order with ID " + orderId + " does not exist.");
+        }
+    }
 }

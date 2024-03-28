@@ -12,5 +12,7 @@ public interface OrderRepo {
 
     void removeOrder(String id);
 
+    Order updateOrder(Order updatedOrder);
+
 
 }
