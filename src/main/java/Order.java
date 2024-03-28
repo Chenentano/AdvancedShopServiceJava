@@ -8,11 +8,11 @@ public record Order(
         String id,
         List<Product> products,
         OrderStatus status,
-        Instant timestamp // Adding timestamp field
+        Instant timestamp
 ) {
-    // Constructor with timestamp parameter
+
     public Order(String id, List<Product> products, OrderStatus status) {
-        this(id, products, status, Instant.now()); // Initialize timestamp with current time
+        this(id, products, status, Instant.now());
     }
     public OrderStatus getStatus() {
         return status;

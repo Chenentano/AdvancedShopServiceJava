@@ -9,7 +9,6 @@ public class ProductRepo {
 
     public ProductRepo() {
         this.products = new ArrayList<>();
-        // Add some initial products for testing
         products.add(new Product("1", "Apfel"));
         products.add(new Product("2", "Banane"));
     }
