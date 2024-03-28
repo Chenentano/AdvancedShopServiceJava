@@ -10,6 +10,11 @@ public class OrderListRepo implements OrderRepo{
         return orders;
     }
 
+    @Override
+    public List<Order> getAllOrders() {
+        return null;
+    }
+
     public Order getOrderById(String id) {
         for (Order order : orders) {
             if (order.id().equals(id)) {

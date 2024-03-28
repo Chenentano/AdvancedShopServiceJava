@@ -13,6 +13,11 @@ public class OrderMapRepo implements OrderRepo{
     }
 
     @Override
+    public List<Order> getAllOrders() {
+        return null;
+    }
+
+    @Override
     public Order getOrderById(String id) {
         return orders.get(id);
     }
